@@ -49,7 +49,6 @@ router.post('/register',(req,res) => {
                                 }
                             )
                             
-                           
                         })
                 })
             })
@@ -57,7 +56,7 @@ router.post('/register',(req,res) => {
 
 })
 
-
+//authenticate user and getting token to request in other routes
 router.post('/auth',(req,res) => {
     
     const { username, password } = req.body
@@ -81,6 +80,7 @@ router.post('/auth',(req,res) => {
                         { expiresIn: 3600 },
                         (err, token) => {
                             if(err) throw err;
+                            //return the token and the id and username
                             res.json({
                                 token,
                                 user: {
@@ -95,6 +95,7 @@ router.post('/auth',(req,res) => {
 
 })
 
+//getting the user information using the token
 router.get('/auth', auth, (req,res) => {
     User.findById(req.user.id)
         .select('-password')
