@@ -3,7 +3,7 @@ let router = express.Router();
 let { spawn } = require('child_process');
 let auth = require('../middleware/auth');
 
-router.get('/appointments',(req,res) => {
+router.get('/appointments', auth, (req,res) => {
     
 })
 
