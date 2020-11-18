@@ -1,10 +1,21 @@
 let express = require('express');
 let mongoose = require('mongoose');
+let bodyParser = require('body-parser');
+let jwt = require('jsonwebtoken');
 let app = express();
 
-let router = require('./router/Appointment');
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(router);
+// parse application/json
+app.use(bodyParser.json());
+
+//appointment data updates
+app.use('/appointment', require('./router/Appointment'));
+//processing appointment on websites
+app.use('/process', require('./router/Process'));
+//for viewing purposes
+app.use('/dashboard', require('./router/Dashboard'));
 
 //set up database
 const db = require('./config/keys').mongoURI;
@@ -19,7 +30,7 @@ mongoDB.on('err', console.error.bind(console, 'connection error:'));
 mongoDB.once('open', () => {
     console.log('MongoDB Connected!');
 })
-
+mongoose.set('useFindAndModify', false);
 
 port = process.env.PORT || 5000;
 
