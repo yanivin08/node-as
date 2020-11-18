@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let Orders = require('../models/orders');
 let jwt = require('jsonwebtoken');
+let auth = require('../middleware/auth');
 
 //get all active appointments
 router.get('/active',(req,res) => {
@@ -19,7 +20,7 @@ router.get('/active',(req,res) => {
 })
 
 //change appointment status for particular order
-router.post('/status',(req,res) => {
+router.post('/status', auth, (req,res) => {
     Orders.findOneAndUpdate({order: req.body.order},
             {
                 status: req.body.status
@@ -34,7 +35,7 @@ router.post('/status',(req,res) => {
 });
 
 //change appointment date for particular order
-router.post('/date',(req,res) => {
+router.post('/date', auth, (req,res) => {
     Orders.findOneAndUpdate({order: req.body.order},
             {
                 appt_start: req.body.appt_start,
@@ -50,7 +51,7 @@ router.post('/date',(req,res) => {
 })
 
 //add all extracted orders from our web extensions to our database
-router.post('/add',(req,res) => {
+router.post('/add', auth, (req,res) => {
 
     const orders = req.body;
     let results = [];

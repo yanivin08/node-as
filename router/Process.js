@@ -1,14 +1,14 @@
 let express = require('express');
 let router = express.Router();
 let { spawn } = require('child_process');
-
+let auth = require('../middleware/auth');
 
 router.get('/appointments',(req,res) => {
     
 })
 
 //this is to run python program to upload the file to COMs
-router.post('/upload',(req,res) => {
+router.post('/upload',auth,(req,res) => {
     const childPython = spawn('python', ['.././python/upload.py']);
 
     childPython.stdout.on('data',(data) => {

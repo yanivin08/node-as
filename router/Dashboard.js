@@ -1,8 +1,10 @@
 let express = require('express');
 let router = express.Router();
+let auth = require('../middleware/auth');
 let Orders = require('../models/orders');
 
-router.get('/',(req,res) => {
+//this will extract all the data from the database
+router.get('/',auth, (req,res) => {
     Orders.find({})
         .then(ord =>{
             res.send(ord)
