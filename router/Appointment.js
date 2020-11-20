@@ -3,9 +3,10 @@ let router = express.Router();
 let Orders = require('../models/orders');
 let jwt = require('jsonwebtoken');
 let auth = require('../middleware/auth');
+const { route } = require('./Dashboard');
 
 //get all active appointments
-router.get('/active',(req,res) => {
+router.get('/active', auth, (req,res) => {
     Orders.find({status: 'New Appoinment'})
         .then(ord => {
             if(ord){
@@ -13,7 +14,7 @@ router.get('/active',(req,res) => {
             }else{
                 res.send(`No active appointments!`);
             }
-        })
+        }) 
         .catch(err => {
             res.send(`Error in extracting active appointments! : ${err}`)
         })
@@ -102,5 +103,7 @@ router.post('/add', auth, (req,res) => {
     console.log(results)
     res.send(results)
 });
+
+
 
 module.exports = router;
