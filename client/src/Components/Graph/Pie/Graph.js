@@ -11,7 +11,8 @@ export class Graph extends Component {
             options: {
                 chart: {
                     background: "#f4f4f4",
-                    foreColor: "#333"
+                    foreColor: "#333",
+                    height: '350px'
                 },
                 responsive: [
                         {
@@ -25,24 +26,36 @@ export class Graph extends Component {
                                 }
                             }
                         }
-                    ]
-                },
-                fill: {
-                    colors: ["#F44336"]
-                 },
+                ],
                 dataLabels: {
                     enabled: false
                 },
-                chartOptions: {
-                    label: [
+                labels: [
                       "Completed",
                       "Cancelled",
                       "Pending",
                       "Confirmed"
-                    ]
+                ],
+                legend: {
+                    position: 'bottom',
+                    show: true
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            labels: {
+                                show: true
+                            },
+                            total:{
+                                show: true
+                            }
+                        }
+                    }
                 }
+                
             }
         }
+    }
 
     render() {
         return (

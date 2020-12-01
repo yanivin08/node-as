@@ -9,7 +9,11 @@ export class Graph extends Component {
             options: {
                 chart: {
                     background: "#f4f4f4",
-                    foreColor: "#333"
+                    foreColor: "#333",
+                    toolbar:{
+                        show: false
+                    },
+                    height: '350px'
                 },
                 xaxis: {
                     categories: [
