@@ -15,8 +15,7 @@
 .user,
 .dashboard {
   height: 90vh;
-  /*align-items: center;
-  justify-content: center;*/
   font-size: 3rem;
   background-color: #f4f4f4;
+  padding: 1rem;
 }

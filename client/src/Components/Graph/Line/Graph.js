@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Chart from 'react-apexcharts';
 import './Graph.css'
+import { Card, CardHeader, Divider, CardContent} from '@material-ui/core';
 
 export class Graph extends Component {
     constructor(props){
@@ -8,12 +9,11 @@ export class Graph extends Component {
         this.state = {
             options: {
                 chart: {
-                    background: "#f4f4f4",
+                    background: "#fffff",
                     foreColor: "#333",
                     toolbar:{
                         show: false
-                    },
-                    height: '350px'
+                    }
                 },
                 xaxis: {
                     categories: [
@@ -39,6 +39,9 @@ export class Graph extends Component {
                  },
                 dataLabels: {
                     enabled: false
+                },
+                legend:{
+                    show: false
                 }
             },
             series: [
@@ -79,14 +82,18 @@ export class Graph extends Component {
     render() {
         console.log(this.state);
         return (
-            <div className="lineChart">
-                <Chart
-                    options={this.state.options}
-                    series={this.state.series}
-                    type="line"
-                    height="350"
-                />
-            </div>
+            <Card className="lineChart">
+                <CardHeader title="Daily Appointments" />
+                <Divider />
+                <CardContent>
+                    <Chart
+                        options={this.state.options}
+                        series={this.state.series}
+                        type="line"
+                        height="500"
+                    />
+                </CardContent>
+            </Card>
         )
     }
 }

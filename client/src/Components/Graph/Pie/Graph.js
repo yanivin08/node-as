@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Chart from 'react-apexcharts';
-
+import { Card, CardHeader, Divider, CardContent} from '@material-ui/core';
+import './Graph.css'
 export class Graph extends Component {
     constructor(props) {
           super(props);
@@ -10,9 +11,8 @@ export class Graph extends Component {
             series: [44, 55, 41, 17],
             options: {
                 chart: {
-                    background: "#f4f4f4",
+                    background: "#fffff",
                     foreColor: "#333",
-                    height: '350px'
                 },
                 responsive: [
                         {
@@ -59,9 +59,17 @@ export class Graph extends Component {
 
     render() {
         return (
-            <div>
-                <Chart options={this.state.options} series={this.state.series} type="donut" height="350"/>
-            </div>
+            <Card class="pieGraph">
+                <CardHeader title="Appointment Status" />
+                <Divider />
+                <CardContent>
+                    <Chart 
+                        options={this.state.options} 
+                        series={this.state.series} 
+                        type="donut" 
+                    />
+                </CardContent>
+            </Card>
         )
     }
 }

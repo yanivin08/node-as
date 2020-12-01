@@ -26,12 +26,6 @@ export class Dashboard extends Component {
                     <Grid item sm={4} xs={12}>
                         <Pie/>
                     </Grid>
-                    <Grid item sm={4}xs={12}>
-                        <Pie/>
-                    </Grid>
-                    <Grid item sm={8} xs={12}>
-                        <Table/>
-                    </Grid>
                 </Grid>
             </div>
         )
