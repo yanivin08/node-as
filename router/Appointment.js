@@ -7,7 +7,7 @@ const { route } = require('./Dashboard');
 
 //get all active appointments
 router.get('/active', auth, (req,res) => {
-    Orders.find({status: 'New Appoinment'})
+    Orders.find({status: 'New Appointment'})
         .then(ord => {
             if(ord){
                 res.send(ord);
@@ -53,7 +53,7 @@ router.post('/date', auth, (req,res) => {
 
 //add all extracted orders from our web extensions to our database
 router.post('/add', auth, (req,res) => {
-
+    console.log(req.body);
     const orders = req.body;
     let results = [];
     console.log(orders)
