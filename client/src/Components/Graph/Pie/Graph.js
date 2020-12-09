@@ -43,11 +43,28 @@ export class Graph extends Component {
                 plotOptions: {
                     pie: {
                         donut: {
-                            labels: {
-                                show: true
+                            show: true,
+                            name: {
+                                show: true,
+                                fontSize: '22px',
+                                fontFamily: 'Rubik',
+                                color: '#dfsda',
+                                offsetY: -10
                             },
-                            total:{
-                                show: true
+                            value: {
+                                show: true,
+                                fontSize: '16px',
+                                fontFamily: 'Helvetica, Arial, sans-serif',
+                                color: undefined,
+                                offsetY: 16,
+                                formatter: function (val) {
+                                    return val
+                                }
+                            },
+                            total: {
+                                show: true,
+                                label: 'Total',
+                                color: '#373d3f'
                             }
                         }
                     }
