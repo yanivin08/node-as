@@ -1,6 +1,6 @@
 import { GET_ITEMS_START, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED } from './type';
 
-const getDate = date => {
+const getDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
         month: '2-digit',day: '2-digit',year: 'numeric'});
 }
@@ -13,11 +13,11 @@ const getItemStart = () => {
 }
 
 const getItemSuccess = res => {
-    
+    console.log(res)
     if(res.msg){
         return { 
             type: GET_ITEMS_FAILED,
-            payload: res
+            payload: res.msg
         }
     }else{ 
 
@@ -56,11 +56,11 @@ const getItemSuccess = res => {
                 series: [
                     {
                         name: 'Email',
-                        data: Object.values(webGraph)
+                        data: Object.values(emailGraph)
                     },
                     {
                         name: 'Website',
-                        data: Object.values(emailGraph)
+                        data: Object.values(webGraph)
                     }
                 ]
             },
@@ -92,7 +92,7 @@ export const getItems = () => {
             headers: {
                 'Accept':'application/json',
                 'Content-Type': 'application/json',
-                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjUyZDdiYzVjMzVmNDFlMDZjYjIxOCIsImlhdCI6MTYwNzYxNTc2MywiZXhwIjoxNjA3NjE5MzYzfQ.IZtdF4_uyvwQMKnoKOClJL7kGDOSotbmlx9xDZA9MAs'
+                'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjUyZDdiYzVjMzVmNDFlMDZjYjIxOCIsImlhdCI6MTYwNzY5OTMyMCwiZXhwIjoxNjA3NzAyOTIwfQ.2jU-TC7YwGdtLjyyX3WjPXiR8tcdp_oJhS5uxXpOlZg'
             }
         })
         .then(res => res.json())

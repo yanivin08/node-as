@@ -22,6 +22,9 @@ const initialState = {
                 foreColor: "#333",
                 toolbar:{
                     show: false
+                },
+                animations: {
+                    enabled: true
                 }
             },
             xaxis: {
@@ -49,20 +52,10 @@ const initialState = {
             chart: {
                 background: "#fffff",
                 foreColor: "#333",
+                animations: {
+                    enabled: true
+                }
             },
-            responsive: [
-                    {
-                        breakpoint: 480,
-                        options: {
-                            chart: {
-                                width: 200
-                            },
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
-                    }
-            ],
             dataLabels: {
                 enabled: false
             },
@@ -80,28 +73,6 @@ const initialState = {
                 pie: {
                     donut: {
                         show: true,
-                        name: {
-                            show: true,
-                            fontSize: '22px',
-                            fontFamily: 'Rubik',
-                            color: '#dfsda',
-                            offsetY: -10
-                        },
-                        value: {
-                            show: true,
-                            fontSize: '16px',
-                            fontFamily: 'Helvetica, Arial, sans-serif',
-                            color: undefined,
-                            offsetY: 16,
-                            formatter: function (val) {
-                                return val
-                            }
-                        },
-                        total: {
-                            show: true,
-                            label: 'Total',
-                            color: '#373d3f'
-                        }
                     }
                 }
             }
@@ -121,7 +92,6 @@ export default function(state = initialState, actions){
                 loading: true
             }
         case GET_ITEMS_SUCCESS:
-            console.log(actions.payload.pieGraph)
             return {
                 ...state,
                 website: actions.payload.website,

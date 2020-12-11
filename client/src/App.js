@@ -1,24 +1,23 @@
 import './App.css';
 import React, { Component } from 'react';
-import NavBar from './Components/Navbar/Navbar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Dashboard from './Pages/Dashboard'
-import Data from './Pages/Data'
-import Settings from './Pages/Settings'
-import Team from './Pages/Team'
+import Login from './Components/Login'
+import Homepage from './Components/Homepage'
 import Store from './Store'
 import { Provider } from 'react-redux'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 export class App extends Component {
+
+  state = {
+    login: false
+  }
+
   render() {
     return (
       <Provider store={Store}>
         <Router>
-          <NavBar />
             <Switch>
-              <Route path='/' exact component={Dashboard}/>
-              <Route path='/data' component={Data}/>
-              <Route path='/settings' component={Settings}/>
-              <Route path='/team' component={Team}/>
+                <Route path='/' exact component={Login}/>
+                <Route path='/dashboard' component={Homepage}/>
             </Switch>
         </Router>
       </Provider>

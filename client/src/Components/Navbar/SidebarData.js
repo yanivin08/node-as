@@ -7,7 +7,7 @@ import * as IoIcons from 'react-icons/io';
 export const SidebarData = [
     {
         title: 'Dashbord',
-        path: '/',
+        path: '/dashboard',
         icon: <FaIcons.FaChartLine />,
         cName: 'nav-text'
     },

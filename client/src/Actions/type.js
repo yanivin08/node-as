@@ -1,3 +1,7 @@
 export const GET_ITEMS_START = 'GET_ITEMS_START';
 export const GET_ITEMS_SUCCESS = 'GET_ITEMS_SUCCESS';
 export const GET_ITEMS_FAILED = 'GET_ITEMS_FAILED';
+
+export const LOGIN_START = 'LOGIN_START';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILED = 'LOGIN_FAILED';

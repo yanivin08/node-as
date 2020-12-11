@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux'
 import { getItems } from '.././Actions/dataAction';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom'
+import Login from '../Components/Login'
 export class Dashboard extends Component {
 
     async componentDidMount(){
@@ -16,7 +18,15 @@ export class Dashboard extends Component {
     }
 
     render() {
-        console.log(this.props.lineGraph,this.props.pieGraph);
+        
+        /*if(this.props.error){
+            if(this.props.message == "Unauthorize access!"){
+                return <Redirect message='Unauthorize access!' to='/'/>
+            }else{
+                return <Redirect message='Your credential has expired!' to='/'/>
+            }
+        }*/
+
         return (
             <div className='dashboard'>
                 <Grid container spacing={3}>

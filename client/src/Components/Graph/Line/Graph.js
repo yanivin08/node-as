@@ -5,6 +5,7 @@ import { Card, CardHeader, Divider, CardContent} from '@material-ui/core';
 
 export class Graph extends Component {
     render() {
+        console.log(this.props.series)
         return (
             <Card className="lineChart">
                 <CardHeader title="Daily Appointments" />

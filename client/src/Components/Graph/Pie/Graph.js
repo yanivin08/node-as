@@ -14,6 +14,7 @@ export class Graph extends Component {
                         options={this.props.options} 
                         series={this.props.series} 
                         type="donut" 
+                        height="450"
                     />
                 </CardContent>
             </Card>
