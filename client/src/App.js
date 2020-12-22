@@ -1,10 +1,8 @@
 import './App.css';
 import React, { Component } from 'react';
-import Login from './Components/Login'
-import Homepage from './Components/Homepage'
+import StartPage from './Components/StartPage'
 import Store from './Store'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 export class App extends Component {
 
   state = {
@@ -14,12 +12,7 @@ export class App extends Component {
   render() {
     return (
       <Provider store={Store}>
-        <Router>
-            <Switch>
-                <Route path='/' exact component={Login}/>
-                <Route path='/dashboard' component={Homepage}/>
-            </Switch>
-        </Router>
+          <StartPage/>
       </Provider>
     )
   }

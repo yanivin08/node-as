@@ -8,7 +8,6 @@
   font-family: 'Lato', sans-serif;
 }
 
-
 .home,
 .data,
 .settings,
@@ -18,4 +17,11 @@
   font-size: 3rem;
   background-color: #f4f4f4;
   padding: 3rem 2rem;
+}
+
+.login {
+  height: 95vh;
+  padding: 3rem 2rem;
+  display: flex;
+  align-items: center;
 }

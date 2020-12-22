@@ -7,25 +7,25 @@ import * as IoIcons from 'react-icons/io';
 export const SidebarData = [
     {
         title: 'Dashbord',
-        path: '/dashboard',
+        path: '/user/dashboard',
         icon: <FaIcons.FaChartLine />,
         cName: 'nav-text'
     },
     {
         title: 'Data',
-        path: '/data',
+        path: '/user/data',
         icon: <IoIcons.IoIosPaper />,
         cName: 'nav-text'
     },
     {
         title: 'Team',
-        path: '/team',
+        path: '/user/team',
         icon: <IoIcons.IoMdPeople />,
         cName: 'nav-text'
     },
     {
         title: 'Settings',
-        path: '/settings',
+        path: '/user/settings',
         icon: <FaIcons.FaCogs />,
         cName: 'nav-text'
     }
