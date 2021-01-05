@@ -1,3 +1,4 @@
+//this is the model for all orders or appointments
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 

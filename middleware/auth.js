@@ -1,3 +1,6 @@
+//this is to authenticate each access to routes
+//this will verify the token if it is valid
+
 let config = require('config');
 let jwt = require('jsonwebtoken');
 

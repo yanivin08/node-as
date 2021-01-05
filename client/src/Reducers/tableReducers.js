@@ -1,29 +1,28 @@
-import { LOGIN_START, LOGIN_SUCCESS, LOGIN_FAILED } from '../Actions/type';
+import { GET_TABLE_START, GET_TABLE_SUCCESS, GET_TABLE_FAILED }  from '../Actions/type';
 
 const initialState = {
     loading: false,
     error: false,
-    message: '',
     data: '',
-    isLoggedIn: false
+    message: ''
 }
+
 
 export default function(state = initialState, actions){
     
     switch(actions.type){
-        case LOGIN_START: 
+        case GET_ITEMS_START: 
             return {
                 ...state,
                 loading: true
             }
-        case LOGIN_SUCCESS:
+        case GET_ITEMS_SUCCESS:
             return {
                 ...state,
-                data: actions.payload,
-                isLoggedIn: true
+                data: actions.payload
             }
 
-        case LOGIN_FAILED:
+        case GET_ITEMS_FAILED:
             return {
                 ...state,
                 loading: false,

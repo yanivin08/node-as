@@ -1,4 +1,4 @@
-import { GET_ITEMS_START, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED } from './type';
+import { GET_TABLE_START, GET_TABLE_SUCCESS, GET_TABLE_FAILED } from './type';
 
 const getDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
@@ -6,21 +6,21 @@ const getDate = (date) => {
 }
 
 
-const getItemStart = () => {
+const getTableStart = () => {
     return {
-        type: GET_ITEMS_START
+        type: GET_TABLE_START
     }
 }
 
-const getItemSuccess = res => {
+const getTableSuccess = res => {
     if(res.msg){
         return { 
-            type: GET_ITEMS_FAILED,
+            type: GET_TABLE_FAILED,
             payload: res.msg
         }
-    }else{ 
+    }//else{ 
 
-        let webValue = res.filter(i => i.appt_type == "Website").length
+        /*let webValue = res.filter(i => i.appt_type == "Website").length
         let mailValue = res.filter(i => i.appt_type == "Email").length
         let totalValue = res.length
 
@@ -65,27 +65,27 @@ const getItemSuccess = res => {
             },
             pieGraph: {
                 series: [completed, cancelled, pending, confirmed]
-            }
-        }
+            }*/
+        //}
 
-        return {
-            type: GET_ITEMS_SUCCESS,
-            payload: stateHandler
-        }
+    return {
+        type: GET_TABLE_SUCCESS,
+        payload: res
     }
+    
 }
 
-const getItemsFailed = err => {
+const getTableFailed = err => {
     return {
-        type: GET_ITEMS_FAILED,
+        type: GET_TABLE_FAILED,
         payload: err
     }
 }
 
-export const getItems = (token) => {
+export const getTable = (token) => {
 
     return (dispatch) => {
-        dispatch(getItemStart());
+        dispatch(getTabletart());
         fetch('/dashboard', {
             method: 'GET',
             headers: {
@@ -96,10 +96,10 @@ export const getItems = (token) => {
         })
         .then(res => res.json())
         .then(res => {
-            dispatch(getItemSuccess(res))
+            dispatch(getTableSuccess(res))
         })
         .catch((err) => {
-            dispatch(getItemsFailed(err))
+            dispatch(getTableFailed(err))
         })
     }
 }

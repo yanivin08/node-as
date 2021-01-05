@@ -1,3 +1,4 @@
+//model for users
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -6,6 +7,22 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         unique: true
+    },
+    first_name:{
+        type: String,
+        required: true
+    },
+    second_name:{
+        type: String,
+        required: true
+    },
+    position:{
+        type: String,
+        required: true
+    },
+    user_type:{
+        type: String,
+        default: 'User'
     },
     password: {
         type: String,

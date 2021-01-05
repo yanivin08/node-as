@@ -4,7 +4,6 @@ import Login from './Login'
 import Homepage from './Homepage'
 import PrivateRoute from './PrivateRoute'
 
-
 export class StartPage extends Component {
 
     render() {
