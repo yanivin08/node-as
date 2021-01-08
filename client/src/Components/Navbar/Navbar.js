@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
+import { Menu, MenuItem } from '@material-ui/core'
 
 export default function Navbar() {
     
     const [sidebar, setSidebar] = useState(false);
+    const [menuEl, setHandle] = useState(null);
+
+    const handleMenuOpen = e => {
+      setHandle(e.currentTarget)
+    }
+
+    const handleMenuClose = () => {
+      setHandle(null);
+    }
 
     const showSidebar = () => setSidebar(!sidebar);
   
@@ -26,14 +36,15 @@ export default function Navbar() {
               </Link>
             </div>
             <div className='menu-rights'>
-              <Link to='#' className='menu-right'>
+              <Link to='#' className='menu-right' aria-controls='menu' onMouseOver={handleMenuOpen}>
                 <FaIcons.FaUser />
               </Link>
-              <Link to='#' className='menu-right'>
-                <FaIcons.FaCog/>
-              </Link>
             </div>
-            
+            <Menu style={{marginTop: '45px'}}
+              id='menu' anchorEl={menuEl} open={Boolean(menuEl)} onClose={handleMenuClose}>
+              <MenuItem onClick={handleMenuClose}>My Profile</MenuItem>
+              <MenuItem onClick={handleMenuClose}><Link style={{textDecoration: 'none'}} to='/login'>Sign Out</Link></MenuItem>
+            </Menu>
           </div>
           <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
             <ul className='nav-menu-items' onClick={showSidebar}>

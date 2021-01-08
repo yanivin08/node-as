@@ -10,6 +10,7 @@ import {bindActionCreators} from 'redux'
 import { getItems } from '.././Actions/dataAction';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import Navbar from '../Components/Navbar/Navbar';
 
 export class Dashboard extends Component {
 
@@ -28,24 +29,27 @@ export class Dashboard extends Component {
               }}/>
         }else{
             return (
-                <div className='dashboard'>
-                    <Grid container spacing={3}>
-                        <Grid item sm={4} xs={12}>
-                            <TextWidget title='Website' value={this.props.website.value} description={this.props.website.description} icon={<IoIcons.IoIosGlobe/>}/>
+                <div>
+                    <Navbar/>
+                    <div className='dashboard'>
+                        <Grid container spacing={3}>
+                            <Grid item sm={4} xs={12}>
+                                <TextWidget title='Website' value={this.props.website.value} description={this.props.website.description} icon={<IoIcons.IoIosGlobe/>}/>
+                            </Grid>
+                            <Grid item sm={4} xs={12}>
+                                <TextWidget title='Email' value={this.props.email.value} description={this.props.email.description} icon={<FaIcons.FaRegEnvelope/>}/>
+                            </Grid>
+                            <Grid item sm={4} xs={12}>
+                                <TextWidget title='Total' value={this.props.total.value} description={this.props.total.description} icon={<FaIcons.FaRegCalendar/>}/>
+                            </Grid>
+                            <Grid item sm={8} xs={12}>
+                                <Graph options={this.props.lineGraph.options} series={this.props.lineGraph.series} />
+                            </Grid>
+                            <Grid item sm={4} xs={12}>
+                                <Pie options={this.props.pieGraph.options} series={this.props.pieGraph.series}/>    
+                            </Grid>
                         </Grid>
-                        <Grid item sm={4} xs={12}>
-                            <TextWidget title='Email' value={this.props.email.value} description={this.props.email.description} icon={<FaIcons.FaRegEnvelope/>}/>
-                        </Grid>
-                        <Grid item sm={4} xs={12}>
-                            <TextWidget title='Total' value={this.props.total.value} description={this.props.total.description} icon={<FaIcons.FaRegCalendar/>}/>
-                        </Grid>
-                        <Grid item sm={8} xs={12}>
-                            <Graph options={this.props.lineGraph.options} series={this.props.lineGraph.series} />
-                        </Grid>
-                        <Grid item sm={4} xs={12}>
-                            <Pie options={this.props.pieGraph.options} series={this.props.pieGraph.series}/>    
-                        </Grid>
-                    </Grid>
+                    </div>
                 </div>
             )
         }

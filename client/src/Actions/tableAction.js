@@ -18,55 +18,13 @@ const getTableSuccess = res => {
             type: GET_TABLE_FAILED,
             payload: res.msg
         }
-    }//else{ 
+    }
 
-        /*let webValue = res.filter(i => i.appt_type == "Website").length
-        let mailValue = res.filter(i => i.appt_type == "Email").length
-        let totalValue = res.length
-
-        let webDesc = (webValue/totalValue * 100).toFixed(2);
-        let mailDesc = (mailValue/totalValue * 100).toFixed(2);
-        let emailGraph = {};
-        let webGraph = {};
-
-        res.filter(i => i.appt_type == "Website").forEach(e => webGraph[getDate(e.date_extracted)] = (webGraph[getDate(e.date_extracted)] || 0) + 1);
-        res.filter(i => i.appt_type == "Email").forEach(e => emailGraph[getDate(e.date_extracted)] = (emailGraph[getDate(e.date_extracted)] || 0) + 1);
-
-        let completed = res.filter(i => i.status == "Complete Appointment").length
-        let cancelled = res.filter(i => i.status == "Cancelled Appointment").length
-        let pending = res.filter(i => i.status == "New Appointment").length
-        let confirmed = res.filter(i => i.status == "Set Appointment").length
-
-        let stateHandler = {
-            website: {
-                value: webValue,
-                description: webDesc + "% of the total Appointments"
-            },
-            email: {
-                value: mailValue,
-                description: mailDesc + "% of the total Appointments"
-            },
-            total: {
-                value: totalValue,
-                description: "Total number of appointment extracted"
-            },
-            lineGraph: {
-                xaxis: Object.keys(emailGraph).length >= Object.keys(webGraph).length ? Object.keys(emailGraph) : Object.keys(webGraph),
-                series: [
-                    {
-                        name: 'Email',
-                        data: Object.values(emailGraph)
-                    },
-                    {
-                        name: 'Website',
-                        data: Object.values(webGraph)
-                    }
-                ]
-            },
-            pieGraph: {
-                series: [completed, cancelled, pending, confirmed]
-            }*/
-        //}
+    res.map(x => {
+        x.appt_start = new Date(x.appt_start).toLocaleString()
+        x.appt_end = new Date(x.appt_end).toLocaleString()
+        x.date_extracted = new Date(x.date_extracted).toLocaleString()
+    })
 
     return {
         type: GET_TABLE_SUCCESS,
@@ -85,7 +43,7 @@ const getTableFailed = err => {
 export const getTable = (token) => {
 
     return (dispatch) => {
-        dispatch(getTabletart());
+        dispatch(getTableStart());
         fetch('/dashboard', {
             method: 'GET',
             headers: {

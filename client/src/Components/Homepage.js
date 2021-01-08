@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import NavBar from './Navbar/Navbar';
 import Dashboard from '../Pages/Dashboard'
 import Data from '../Pages/Data'
 import Settings from '../Pages/Settings'
 import Team from '../Pages/Team'
+import Login from './Login';
 
 export class Homepage extends Component {
     
     render() {
         return (
             <Router>
-                <NavBar />
                 <Switch>
                     <Route path='/user/dashboard' exact component={Dashboard}/>
                     <Route path='/user/data' component={Data}/>
@@ -20,6 +19,7 @@ export class Homepage extends Component {
                     <Route path='/user'>
                         <Redirect to='/user/dashboard'/>
                     </Route>
+                    <Route path='/login' component={Login}/>
                 </Switch>
             </Router>
         )

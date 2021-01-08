@@ -1,7 +1,7 @@
 import { GET_TABLE_START, GET_TABLE_SUCCESS, GET_TABLE_FAILED }  from '../Actions/type';
 
 const initialState = {
-    loading: false,
+    loading: true,
     error: false,
     data: '',
     message: ''
@@ -11,18 +11,19 @@ const initialState = {
 export default function(state = initialState, actions){
     
     switch(actions.type){
-        case GET_ITEMS_START: 
+        case GET_TABLE_START: 
             return {
                 ...state,
                 loading: true
             }
-        case GET_ITEMS_SUCCESS:
+        case GET_TABLE_SUCCESS:
             return {
                 ...state,
-                data: actions.payload
+                data: actions.payload,
+                loading: false
             }
 
-        case GET_ITEMS_FAILED:
+        case GET_TABLE_FAILED:
             return {
                 ...state,
                 loading: false,
