@@ -18,6 +18,11 @@
   padding: 3rem 2rem;
 }
 
+.user {
+  height: 94vh;
+  padding: 3rem 2rem;
+}
+
 .data {
   height: 90vh;
   font-size: 1rem;

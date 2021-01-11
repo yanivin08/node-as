@@ -56,6 +56,8 @@ router.post('/register',(req,res) => {
 
 })
 
+
+router.post('/change_password')
 //authenticate user and getting token to request in other routes
 router.post('/auth',(req,res) => {
     

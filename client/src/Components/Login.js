@@ -15,7 +15,6 @@ export class Login extends Component {
 
     async onLogin() {
         await this.props.login(this.state.username,this.state.password);
-        console.log(this.props)
     }
 
     onChanges = (e) => {
@@ -45,8 +44,8 @@ export class Login extends Component {
                             <Grid align='center' style={{maxWidth: '300px'}}>
                                 <Avatar style={{backgroundColor: '#4487ab'}}><LockOutlinedIcon/></Avatar>
                                 <h2>Sign In</h2>
-                                <TextField label="Username" margin="normal" name='username' fullWidth required onChange={this.onChanges}/>
-                                <TextField label="Password" margin="normal" type="password" name='password' fullWidth required onChange={this.onChanges}/>
+                                <TextField variant='outlined' label="Username" margin="normal" name='username' fullWidth required onChange={this.onChanges}/>
+                                <TextField variant='outlined' label="Password" margin="normal" type="password" name='password' fullWidth required onChange={this.onChanges}/>
                                 <Button type='submit' color='primary' variant='contained' fullWidth style={{marginTop: '25px'}} onClick={() => this.onLogin()}>Sign In</Button>
                                 <Typography style={{marginTop: '10px'}}>
                                     <Link href='#'>

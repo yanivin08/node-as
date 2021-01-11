@@ -20,6 +20,17 @@ export default function Navbar() {
       setHandle(null);
     }
 
+    const signOut = () => {
+      document.cookie = "token=\"\";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+      window.location.reload();
+    }
+
+    const getCookie = (name) => {
+      return document.cookie.split(';').some(c => {
+        return c.trim().startsWith(name + '=')
+      })
+    }
+
     const showSidebar = () => setSidebar(!sidebar);
   
     return (
@@ -43,7 +54,7 @@ export default function Navbar() {
             <Menu style={{marginTop: '45px'}}
               id='menu' anchorEl={menuEl} open={Boolean(menuEl)} onClose={handleMenuClose}>
               <MenuItem onClick={handleMenuClose}>My Profile</MenuItem>
-              <MenuItem onClick={handleMenuClose}><Link style={{textDecoration: 'none'}} to='/login'>Sign Out</Link></MenuItem>
+              <MenuItem onClick={handleMenuClose, signOut}>Sign Out</MenuItem>
             </Menu>
           </div>
           <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>

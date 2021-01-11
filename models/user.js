@@ -16,6 +16,10 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    email:{
+        type: String,
+        required: true
+    },
     position:{
         type: String,
         required: true
@@ -24,7 +28,7 @@ const UserSchema = new Schema({
         type: String,
         default: 'User'
     },
-    account: {
+    department: {
         type: String
     },
     password: {
