@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Children } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux'
@@ -37,12 +37,13 @@ export class PrivateRoute extends Component {
 
     render() {
 
-        
-        
         if(this.props.location.state != undefined){
             let token = this.props.location.state.data.token
             document.cookie = `token=${token}`
         }
+        
+        const { data } = this.props;
+        const children = this.props.children
 
         return (
             <>
@@ -51,10 +52,10 @@ export class PrivateRoute extends Component {
                         ? this.props.location.state.login
                             ? this.props.children
                             : this.authenticate()
-                                ? this.props.children
+                                ? Children.map(children, child => React.cloneElement(child, { ...data}))
                                 : <Redirect to='/login' />
                         : this.checkToken() 
-                            ? this.props.children
+                            ? Children.map(children, child => React.cloneElement(child, { ...data}))
                             : <Redirect to='/login' />
                 }}/>
             </>

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Redirect, Route } from 'react-router-dom'
 import LockOutlinedIcon from '@material-ui/icons/LockOpenOutlined'
 import { Grid, TextField, Avatar, Button, Typography, Link } from '@material-ui/core'
+import { Alert, AlertTitle } from '@material-ui/lab';
 export class Login extends Component {
 
     state = {
@@ -13,20 +14,15 @@ export class Login extends Component {
         password: ''
     }
 
-    async onLogin() {
+    onLogin = async(event) => {
+        console.log("hoy!");
+        event.preventDefault();
         await this.props.login(this.state.username,this.state.password);
     }
 
     onChanges = (e) => {
-        e.target.name == 'username'
-            ? this.setState({
-                    ...this.state,
-                    username: e.target.value
-                })
-            : this.setState({
-                    ...this.state,
-                    password: e.target.value
-                })
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
     }
 
     render() {
@@ -44,9 +40,12 @@ export class Login extends Component {
                             <Grid align='center' style={{maxWidth: '300px'}}>
                                 <Avatar style={{backgroundColor: '#4487ab'}}><LockOutlinedIcon/></Avatar>
                                 <h2>Sign In</h2>
-                                <TextField variant='outlined' label="Username" margin="normal" name='username' fullWidth required onChange={this.onChanges}/>
-                                <TextField variant='outlined' label="Password" margin="normal" type="password" name='password' fullWidth required onChange={this.onChanges}/>
-                                <Button type='submit' color='primary' variant='contained' fullWidth style={{marginTop: '25px'}} onClick={() => this.onLogin()}>Sign In</Button>
+                                {this.props.error ? <Alert severity="error">{this.props.message}</Alert> : "" }
+                                <form onSubmit={this.onLogin}>
+                                    <TextField variant='outlined' label="Username" margin="normal" name='username' fullWidth required onChange={this.onChanges}/>
+                                    <TextField variant='outlined' label="Password" margin="normal" type="password" name='password' fullWidth required onChange={this.onChanges}/>
+                                    <Button type='submit' color='primary' variant='contained' fullWidth style={{marginTop: '25px'}}>Sign In</Button>
+                                </form>
                                 <Typography style={{marginTop: '10px'}}>
                                     <Link href='#'>
                                         Forgot password?
