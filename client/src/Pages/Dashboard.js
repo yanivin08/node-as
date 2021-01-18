@@ -11,11 +11,11 @@ import { getItems } from '.././Actions/dataAction';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import Navbar from '../Components/Navbar/Navbar';
+import { BeatLoader } from 'react-spinners';
 
 export class Dashboard extends Component {
 
     async componentDidMount(){
-
         const token = document.cookie.split('=')[1];
         await this.props.getItems(token);
     }
@@ -42,10 +42,14 @@ export class Dashboard extends Component {
                                 <TextWidget title='Total' value={this.props.total.value} description={this.props.total.description} icon={<FaIcons.FaRegCalendar/>}/>
                             </Grid>
                             <Grid item sm={8} xs={12}>
-                                <Graph options={this.props.lineGraph.options} series={this.props.lineGraph.series} />
+                                {this.props.loading
+                                    ? <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}><BeatLoader loading/></div>
+                                    : <Graph options={this.props.lineGraph.options} series={this.props.lineGraph.series} />}
                             </Grid>
                             <Grid item sm={4} xs={12}>
-                                <Pie options={this.props.pieGraph.options} series={this.props.pieGraph.series}/>    
+                                {this.props.loading
+                                    ? <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}><BeatLoader loading/></div>
+                                    : <Pie options={this.props.pieGraph.options} series={this.props.pieGraph.series}/> }
                             </Grid>
                         </Grid>
                     </div>
@@ -72,7 +76,8 @@ const mapStateToProps = (state) => ({
     website: state.data.website,
     total: state.data.total,
     error: state.data.error,
-    message: state.data.message
+    message: state.data.message,
+    loading: state.data.loading
 })
 
 export default connect(mapStateToProps, mapDispatchToProps )(Dashboard);

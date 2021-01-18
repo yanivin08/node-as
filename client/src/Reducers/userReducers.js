@@ -1,7 +1,7 @@
-import { ADD_USER_START, ADD_USER_SUCCESS, ADD_USER_FAILED } from '../Action/type';
+import { ADD_USER_START, ADD_USER_SUCCESS, ADD_USER_FAILED }  from '../Actions/type';
 
 const initialState = {
-    loading: false,
+    loading: true,
     error: false,
     message: '',
     data: '',

@@ -31,3 +31,7 @@
 .widgetText {
     padding-bottom: 10px;
 }
+
+.widgetIcon{
+    font-size: 3rem;
+}

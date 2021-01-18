@@ -1,7 +1,7 @@
 import { GET_ITEMS_START, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED }  from '../Actions/type';
 
 const initialState = {
-    loading: false,
+    loading: true,
     error: false,
     website: {
         value: 0,
@@ -94,6 +94,7 @@ export default function(state = initialState, actions){
         case GET_ITEMS_SUCCESS:
             return {
                 ...state,
+                loading: false,
                 website: actions.payload.website,
                 email: actions.payload.email,
                 total: actions.payload.total,

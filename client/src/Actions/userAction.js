@@ -7,13 +7,17 @@ const addUserStart = () => {
 }
 
 const addUserSuccess = res => {
-    //console.log(res)
     if(res.msg){
         return { 
             type: ADD_USER_FAILED,
             payload: res.msg
         }
-    }else{ 
+    }else{
+        
+        res.map(x => {
+            x.register_date = new Date(x.register_date).toLocaleDateString()
+        })    
+
         return {
             type: ADD_USER_SUCCESS,
             payload: res
@@ -28,9 +32,10 @@ const addUserFailed = err => {
     }
 }
 
-export const login = (data) => {
+export const addUser = (data) => {
     
-    const { username,first_name,second_name,email,position,user_type,department,password } = data;
+    const { first_name,second_name,email,position,user_type,department } = data;
+    const password = "password12345"
 
     return (dispatch) => {
         dispatch(addUserStart());
@@ -41,7 +46,7 @@ export const login = (data) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                username,
+                'username': first_name,
                 first_name,
                 second_name,
                 email,
@@ -50,6 +55,28 @@ export const login = (data) => {
                 department,
                 password
             })
+        })
+        .then(res => res.json())
+        .then(res => {
+            dispatch(addUserSuccess(res))
+        })
+        .catch((err) => {
+            dispatch(addUserFailed(err))
+        })
+    }
+}
+
+export const getUsers = (token) => {
+
+    return (dispatch) => {
+        dispatch(addUserStart());
+        fetch('/user/users', {
+            method: 'GET',
+            headers: {
+                'Accept':'application/json',
+                'Content-Type': 'application/json',
+                'x-auth-token': token
+            }
         })
         .then(res => res.json())
         .then(res => {

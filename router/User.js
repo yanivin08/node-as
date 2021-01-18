@@ -12,6 +12,7 @@ router.post('/register',(req,res) => {
     
     const { username, first_name, second_name, email, position, department, user_type, password } = req.body
 
+    console.log(username, first_name, second_name, email, position, department, user_type, password)
     if(!username || !first_name || !second_name || !email || !position || !department || !user_type || !password) {
         return res.status(400).json({ msg: 'Please enter all fields'});
     }
@@ -43,17 +44,11 @@ router.post('/register',(req,res) => {
                                 { id: user.id },
                                 config.get('jwtSecret'),
                                 { expiresIn: 3600 },
-                                (err, token) => {
+                                (err) => {
                                     if(err) throw err;
-                                    res.json({
-                                        token,
-                                        user: {
-                                            id: user.id,
-                                            name: user.username,
-                                            first_name: user.first_name,
-                                            second_name: user.second_name,
-                                        }
-                                    })
+                                    User.find()
+                                        .select('-password')
+                                        .then(users => res.json(users))
                                 }
                             )
                             
@@ -65,7 +60,35 @@ router.post('/register',(req,res) => {
 })
 
 
-router.post('/change_password')
+router.post('/change_password', auth, (req,res) => {
+
+    const { password, new_password, confirm_password } = req.body
+    
+    User.findById(req.user.id)
+        .then(user => {
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                    if(!isMatch) return res.json({msg: 'Invalid password!'})
+
+                    if(new_password == confirm_password){
+                        bcrypt.genSalt(10, (err, salt) => {
+                            bcrypt.hash(new_password, salt, (err,hash) => {
+                                if(err) throw err;
+                                user.password = hash;
+                                user.save()
+                                    .then(() => {
+                                        res.json({msg: 'Your password has successfully change!'})
+                                    })
+                            })
+                        })
+                    }else{
+                        return res.json({msg: 'New password did not match!'})
+                    }
+                })
+        })
+
+})
+
 //authenticate user and getting token to request in other routes
 router.post('/auth',(req,res) => {
     
@@ -104,6 +127,20 @@ router.post('/auth',(req,res) => {
         })
 
 })
+
+//getting all the users
+router.get('/users', auth, (req,res) => {
+    User.findById(req.user.id)
+        .select('-password')
+        .then(user => {
+            user.user_type == 'Guest' || user.user_type == 'User'
+                ? res.json({})
+                : User.find()
+                    .select('-password')
+                    .then(user => res.json(user))
+            })
+})
+
 
 //getting the user information using the token
 router.get('/auth', auth, (req,res) => {

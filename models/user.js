@@ -24,12 +24,12 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    department: {
+        type: String
+    },
     user_type:{
         type: String,
         default: 'User'
-    },
-    department: {
-        type: String
     },
     password: {
         type: String,
@@ -38,6 +38,10 @@ const UserSchema = new Schema({
     register_date: {
         type: Date,
         default: Date.now
+    },
+    change_password: {
+        type: Boolean,
+        default: true
     }
 });
 

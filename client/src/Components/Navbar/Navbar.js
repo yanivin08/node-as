@@ -6,9 +6,12 @@ import { SidebarData } from './SidebarData';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
 import { Menu, MenuItem } from '@material-ui/core'
+import { useHistory } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar(props) {
     
+    const history = useHistory();
+
     const [sidebar, setSidebar] = useState(false);
     const [menuEl, setHandle] = useState(null);
 
@@ -21,6 +24,7 @@ export default function Navbar() {
     }
 
     const signOut = () => {
+      console.log("logout!");
       document.cookie = "token=\"\";expires=Thu, 01 Jan 1970 00:00:01 GMT";
       window.location.reload();
     }

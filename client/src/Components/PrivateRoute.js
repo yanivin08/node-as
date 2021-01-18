@@ -7,15 +7,10 @@ import PropTypes from 'prop-types';
 
 export class PrivateRoute extends Component {
     
-    /*state = {
-        request: false
-    }*/
-
     async authenticate(){
         
             let token = document.cookie
             
-
             if(token == ""){
                 return false
             }else{
@@ -39,10 +34,10 @@ export class PrivateRoute extends Component {
 
         if(this.props.location.state != undefined){
             let token = this.props.location.state.data.token
-            document.cookie = `token=${token}`
+            document.cookie = `token=${token};path=/`
         }
-        
-        const { data } = this.props;
+
+        const { location } = this.props;
         const children = this.props.children
 
         return (
@@ -52,10 +47,10 @@ export class PrivateRoute extends Component {
                         ? this.props.location.state.login
                             ? this.props.children
                             : this.authenticate()
-                                ? Children.map(children, child => React.cloneElement(child, { ...data}))
+                                ? Children.map(children, child => React.cloneElement(child, { ...location}))
                                 : <Redirect to='/login' />
                         : this.checkToken() 
-                            ? Children.map(children, child => React.cloneElement(child, { ...data}))
+                            ? Children.map(children, child => React.cloneElement(child, { ...location}))
                             : <Redirect to='/login' />
                 }}/>
             </>

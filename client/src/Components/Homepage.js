@@ -15,7 +15,7 @@ export class Homepage extends Component {
                 <Switch>
                     <Route path='/user/dashboard' exact component={Dashboard}/>
                     <Route path='/user/data' component={Data}/>
-                    <Route path='/user/settings' component={Settings}/>
+                    <Route path='/user/account' component={Settings}/>
                     <Route path='/user/team' component={Team}/>
                     <Route path='/user'>
                         <Redirect to='/user/dashboard'/>

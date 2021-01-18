@@ -9,24 +9,28 @@ export const SidebarData = [
         title: 'Dashbord',
         path: '/user/dashboard',
         icon: <FaIcons.FaChartLine />,
-        cName: 'nav-text'
+        cName: 'nav-text',
+        private: false
     },
     {
         title: 'Data',
         path: '/user/data',
         icon: <IoIcons.IoIosPaper />,
-        cName: 'nav-text'
+        cName: 'nav-text',
+        private: false
     },
     {
         title: 'Team',
         path: '/user/team',
         icon: <IoIcons.IoMdPeople />,
-        cName: 'nav-text'
+        cName: 'nav-text',
+        private: true
     },
     {
-        title: 'Settings',
-        path: '/user/settings',
+        title: 'Accounts',
+        path: '/user/account',
         icon: <FaIcons.FaCogs />,
-        cName: 'nav-text'
+        cName: 'nav-text',
+        private: false
     }
 ]

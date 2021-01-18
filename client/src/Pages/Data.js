@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Tables from '../Components/Table/Tables'
 import Navbar from '../Components/Navbar/Navbar';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux'
@@ -7,7 +6,7 @@ import { getTable } from '.././Actions/tableAction';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import MaterialTable from 'material-table';
-import Icon from '@material-ui/core/Icon';
+import { BeatLoader } from 'react-spinners';
 export class Data extends Component {
 
     state = {
@@ -63,7 +62,7 @@ export class Data extends Component {
                     <Navbar/>
                     <div className='data'>
                         {this.props.loading
-                            ? "loading..."
+                            ? <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}><BeatLoader loading/></div>
                             : <MaterialTable
                                 title="Appointment Data" 
                                 data={this.props.data}

@@ -7,6 +7,7 @@ import { Redirect, Route } from 'react-router-dom'
 import LockOutlinedIcon from '@material-ui/icons/LockOpenOutlined'
 import { Grid, TextField, Avatar, Button, Typography, Link } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab';
+
 export class Login extends Component {
 
     state = {
@@ -15,7 +16,6 @@ export class Login extends Component {
     }
 
     onLogin = async(event) => {
-        console.log("hoy!");
         event.preventDefault();
         await this.props.login(this.state.username,this.state.password);
     }
