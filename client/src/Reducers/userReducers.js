@@ -5,6 +5,7 @@ const initialState = {
     error: false,
     message: '',
     data: '',
+    errorType: ''
 }
 
 export default function(state = initialState, actions){
@@ -19,6 +20,7 @@ export default function(state = initialState, actions){
             return {
                 ...state,
                 data: actions.payload,
+                message: actions.msg,
                 loading: false
             }
         case ADD_USER_FAILED:

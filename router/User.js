@@ -14,12 +14,12 @@ router.post('/register',(req,res) => {
 
     console.log(username, first_name, second_name, email, position, department, user_type, password)
     if(!username || !first_name || !second_name || !email || !position || !department || !user_type || !password) {
-        return res.status(400).json({ msg: 'Please enter all fields'});
+        return res.status(400).json({ msg: 'Please enter all fields', errorType: 'info'});
     }
 
     User.findOne({username})
         .then(acct => {
-            if(acct) return res.status(400).json({msg: 'Username already exist!'});
+            if(acct) return res.status(400).json({msg: 'Username already exist!', errorType: 'info'});
 
             const newUser = new User({
                 username, 
@@ -59,7 +59,7 @@ router.post('/register',(req,res) => {
 
 })
 
-
+//changing passwords
 router.post('/change_password', auth, (req,res) => {
 
     const { password, new_password, confirm_password } = req.body
@@ -68,7 +68,7 @@ router.post('/change_password', auth, (req,res) => {
         .then(user => {
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
-                    if(!isMatch) return res.json({msg: 'Invalid password!'})
+                    if(!isMatch) return res.json({msg: 'Invalid password!', errorType: 'error'})
 
                     if(new_password == confirm_password){
                         bcrypt.genSalt(10, (err, salt) => {
@@ -77,15 +77,38 @@ router.post('/change_password', auth, (req,res) => {
                                 user.password = hash;
                                 user.save()
                                     .then(() => {
-                                        res.json({msg: 'Your password has successfully change!'})
+                                        res.json({msg: 'Your password has successfully change!', errorType: 'success'})
                                     })
                             })
                         })
                     }else{
-                        return res.json({msg: 'New password did not match!'})
+                        return res.json({msg: 'New password did not match!', errorType: 'error'})
                     }
                 })
         })
+
+})
+
+//changing user information
+router.post('/change_info', auth, (req,res) => {
+    const { id, username, first_name, second_name, email, position, department } = req.body
+
+    User.findOneAndUpdate({ _id:id },
+        {
+            username: username,
+            first_name: first_name, 
+            second_name: second_name, 
+            email: email, 
+            position: position, 
+            department: department
+        }
+    )
+    .then(() => {
+        res.json({msg: "Your account information has been updated!", errorType: 'success'})
+    })
+    .catch(err =>{
+        res.json({msg:`Error updating your information: ${err}`, errorType: 'error'})
+    })
 
 })
 
@@ -95,12 +118,12 @@ router.post('/auth',(req,res) => {
     const { username, password } = req.body
 
     if(!username || !password) {
-        return res.status(400).json({ msg: 'Please enter all fields'});
+        return res.status(400).json({ msg: 'Please enter all fields', errorType: 'info'});
     }
 
     User.findOne({username})
         .then(acct => {
-            if(!acct) return res.status(400).json({msg: 'User does not exist!'});
+            if(!acct) return res.status(400).json({msg: 'User does not exist!', errorType: 'error'});
 
             //validate password
             bcrypt.compare(password, acct.password)

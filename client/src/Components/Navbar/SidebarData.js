@@ -1,35 +1,33 @@
-import React from 'react'
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import * as IoIcons from 'react-icons/io';
+import React from 'react';
+import { Equalizer, Description, People, Settings } from '@material-ui/icons';
 
 
 export const SidebarData = [
     {
         title: 'Dashbord',
         path: '/user/dashboard',
-        icon: <FaIcons.FaChartLine />,
+        icon: <Equalizer />,
         cName: 'nav-text',
         private: false
     },
     {
         title: 'Data',
         path: '/user/data',
-        icon: <IoIcons.IoIosPaper />,
+        icon: <Description />,
         cName: 'nav-text',
         private: false
     },
     {
         title: 'Team',
         path: '/user/team',
-        icon: <IoIcons.IoMdPeople />,
+        icon: <People />,
         cName: 'nav-text',
         private: true
     },
     {
         title: 'Accounts',
         path: '/user/account',
-        icon: <FaIcons.FaCogs />,
+        icon: <Settings />,
         cName: 'nav-text',
         private: false
     }

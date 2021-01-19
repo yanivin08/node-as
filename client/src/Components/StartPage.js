@@ -12,7 +12,7 @@ export class StartPage extends Component {
                 <Switch>
                     <Route path="/login" component={Login} />
                     <PrivateRoute path='/user'>
-                        <Homepage data={this.props}/>
+                        <Homepage passData={this.props}/>
                     </PrivateRoute>
                     <Route path="/">
                         <Redirect to='/user'/>

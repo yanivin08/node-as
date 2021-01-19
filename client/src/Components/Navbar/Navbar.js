@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import './Navbar.css';
-import { IconContext } from 'react-icons';
 import { Menu, MenuItem } from '@material-ui/core'
 import { useHistory } from "react-router-dom";
+import { Person, Menu as Menus, Close } from '@material-ui/icons';
 
 export default function Navbar(props) {
     
@@ -25,7 +23,7 @@ export default function Navbar(props) {
 
     const signOut = () => {
       console.log("logout!");
-      document.cookie = "token=\"\";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+      document.cookie = "token=\"\";path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT";
       window.location.reload();
     }
 
@@ -39,20 +37,19 @@ export default function Navbar(props) {
   
     return (
       <>
-        <IconContext.Provider value={{ color: '#fff' }}>
           <div className='navbar'>
             <div className='menu-bars'>
               <Link to='#' className='menu-bar'>
-                <FaIcons.FaBars onClick={showSidebar} />
+                <Menus style={{color: 'white', fontSize: '30px'}} onClick={showSidebar}/>
+                
               </Link>
               <Link to='#' className='menu-bar'>
-                <FaIcons.FaCalendar />
                 <span>Appointment Settings</span>
               </Link>
             </div>
             <div className='menu-rights'>
               <Link to='#' className='menu-right' aria-controls='menu' onMouseOver={handleMenuOpen}>
-                <FaIcons.FaUser />
+                <Person style={{color: 'white', fontSize: '30px'}}/>
               </Link>
             </div>
             <Menu style={{marginTop: '45px'}}
@@ -65,7 +62,7 @@ export default function Navbar(props) {
             <ul className='nav-menu-items' onClick={showSidebar}>
               <li className='navbar-toggle'>
                 <Link to='#' className='menu-bar'>
-                  <AiIcons.AiOutlineClose />
+                    <Close style={{color: 'white', fontSize: '30px'}}/>
                 </Link>
               </li>
               {SidebarData.map((item, index) => {
@@ -80,7 +77,6 @@ export default function Navbar(props) {
               })}
             </ul>
           </nav>
-        </IconContext.Provider>
       </>
     );
 }

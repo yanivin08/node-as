@@ -33,10 +33,11 @@ export class PrivateRoute extends Component {
     render() {
 
         if(this.props.location.state != undefined){
+            console.log("anu ba yan!")
             let token = this.props.location.state.data.token
             document.cookie = `token=${token};path=/`
         }
-
+        
         const { location } = this.props;
         const children = this.props.children
 

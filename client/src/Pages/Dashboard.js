@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import TextWidget from '../Components/TextWidget/TextWidget'
-import * as IoIcons from 'react-icons/io';
-import * as FaIcons from 'react-icons/fa';
+import { Language, MailOutline, CalendarToday } from '@material-ui/icons'
 import Graph from '../Components/Graph/Line/Graph';
 import Pie from '../Components/Graph/Pie/Graph';
 import Grid from '@material-ui/core/Grid';
@@ -33,13 +32,13 @@ export class Dashboard extends Component {
                     <div className='dashboard'>
                         <Grid container spacing={3}>
                             <Grid item sm={4} xs={12}>
-                                <TextWidget title='Website' value={this.props.website.value} description={this.props.website.description} icon={<IoIcons.IoIosGlobe/>}/>
+                                <TextWidget title='Website' value={this.props.website.value} description={this.props.website.description} icon={<Language style={{fontSize: '50px'}}/>}/>
                             </Grid>
                             <Grid item sm={4} xs={12}>
-                                <TextWidget title='Email' value={this.props.email.value} description={this.props.email.description} icon={<FaIcons.FaRegEnvelope/>}/>
+                                <TextWidget title='Email' value={this.props.email.value} description={this.props.email.description} icon={<MailOutline style={{fontSize: '50px'}}/>}/>
                             </Grid>
                             <Grid item sm={4} xs={12}>
-                                <TextWidget title='Total' value={this.props.total.value} description={this.props.total.description} icon={<FaIcons.FaRegCalendar/>}/>
+                                <TextWidget title='Total' value={this.props.total.value} description={this.props.total.description} icon={<CalendarToday style={{fontSize: '50px'}}/>}/>
                             </Grid>
                             <Grid item sm={8} xs={12}>
                                 {this.props.loading

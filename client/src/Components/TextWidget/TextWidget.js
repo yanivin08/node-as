@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import * as IoIcons from 'react-icons/io';
 import './TextWidget.css'
 
 export class TextWidget extends Component {

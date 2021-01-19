@@ -64,6 +64,7 @@ export class Data extends Component {
                         {this.props.loading
                             ? <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}><BeatLoader loading/></div>
                             : <MaterialTable
+                                style={{minHeight: '725px'}}
                                 title="Appointment Data" 
                                 data={this.props.data}
                                 columns={this.state.columns}
