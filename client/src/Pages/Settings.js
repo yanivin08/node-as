@@ -46,29 +46,27 @@ export class Settings extends Component {
     }
 
     onSubmitPass = async(event) => {
+        const token = document.cookie.split('=')[1];
         event.preventDefault();
-        await this.props.changePass(this.state.password)
+        await this.props.changePass(token,this.state.password)
     }
 
-    async getInformation(){
+    async componentDidMount(){
         const token = document.cookie.split('=')[1];
         await this.props.getInfo(token);
 
         this.setState({
-                info: {
-                    id: this.props.data._id,
-                    username: this.props.data.username,
-                    first_name: this.props.data.first_name,
-                    second_name: this.props.data.second_name,
-                    email: this.props.data.email,
-                    position: this.props.data.position,
-                    department: this.props.data.department
-                }
-            })
-    }
+            info: {
+                id: this.props.data._id,
+                username: this.props.data.username,
+                first_name: this.props.data.first_name,
+                second_name: this.props.data.second_name,
+                email: this.props.data.email,
+                position: this.props.data.position,
+                department: this.props.data.department
+            }
+         })
 
-    componentDidMount(){
-        this.getInformation();
     }
 
     render() {
@@ -83,7 +81,7 @@ export class Settings extends Component {
                                     <h5>Account Information</h5>
                                     {this.props.loading
                                         ? <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}><BeatLoader loading/></div>
-                                        : <form style={{marginTop: '30px'}} onSubmit={this.onSubmitInfo}>
+                                        :  <form style={{marginTop: '30px'}} onSubmit={this.onSubmitInfo}>
                                             <TextField value={this.state.info.username} variant='outlined' name="username" label="Username" onChange={this.onChangesInfo} style={{paddingBottom: '15px', width: '300px'}}/>
                                             <TextField value={this.state.info.first_name} variant='outlined' name="first_name" label="First Name" onChange={this.onChangesInfo} style={{paddingBottom: '15px', width: '350px'}}/>
                                             <TextField value={this.state.info.second_name} variant='outlined' name="second_name" label="Last Name" onChange={this.onChangesInfo} style={{paddingBottom: '15px', width: '350px'}}/>
@@ -103,11 +101,11 @@ export class Settings extends Component {
                                             </FormControl>
                                             <br/>
                                             <Button type='submit' color='primary' variant='contained' style={{width: '150px', marginRight: '10px',  marginTop: '15px'}}>Save</Button>
-                                        </form>}
+                                    </form>}
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={6} >
                                     <h5>Change Password</h5>
-                                    <form style={{marginTop: '30px'}}>
+                                    <form style={{marginTop: '30px'}} onSubmit={this.onSubmitPass}>
                                         <TextField variant='outlined' type='password' name="old_password" label="Old Password" style={{paddingBottom: '15px', width: '300px'}}/>
                                         <TextField variant='outlined' type='password' name="new_password" label="New Password" style={{paddingBottom: '15px', width: '300px'}}/>
                                         <TextField variant='outlined' type='password' name="confirm_password" label="Confirm Password" style={{paddingBottom: '15px', width: '300px'}}/>
