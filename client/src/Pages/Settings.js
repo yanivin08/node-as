@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Navbar from '../Components/Navbar/Navbar';
 import { Container, Grid, Paper, TextField, FormControl, InputLabel, Select as MuiSelect,Button } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux'
 import { changePass, changeInfo, getInfo } from '.././Actions/userAction';
@@ -33,7 +34,7 @@ export class Settings extends Component {
     }
 
     onSubmitInfo = async(event) => {
-        const token = document.cookie.split('=')[1];
+        const token = this.getCookie("a") + "." + this.getCookie("dt");
         event.preventDefault();
         await this.props.changeInfo(token,this.state.info)
     }
@@ -46,30 +47,52 @@ export class Settings extends Component {
     }
 
     onSubmitPass = async(event) => {
-        const token = document.cookie.split('=')[1];
+        const token = this.getCookie("a") + "." + this.getCookie("dt");
         event.preventDefault();
         await this.props.changePass(token,this.state.password)
     }
 
-    async componentDidMount(){
-        const token = document.cookie.split('=')[1];
-        await this.props.getInfo(token);
-
-        this.setState({
-            info: {
-                id: this.props.data._id,
-                username: this.props.data.username,
-                first_name: this.props.data.first_name,
-                second_name: this.props.data.second_name,
-                email: this.props.data.email,
-                position: this.props.data.position,
-                department: this.props.data.department
+    getCookie = (cname) => {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+            c = c.substring(1);
             }
-         })
+            if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
 
+    componentWillReceiveProps(nextProps){
+        // store your props value to state here
+       console.log(nextProps);
+       if(nextProps !== undefined){
+        this.setState({
+                info: {
+                    id: nextProps.data._id,
+                    username: nextProps.data.username,
+                    first_name: nextProps.data.first_name,
+                    second_name: nextProps.data.second_name,
+                    email: nextProps.data.email,
+                    position: nextProps.data.position,
+                    department: nextProps.data.department
+                }
+            })
+        }
+    }
+    
+    async componentDidMount(){
+        const token = this.getCookie("a") + "." + this.getCookie("dt")  ;
+        await this.props.getInfo(token);
     }
 
     render() {
+        
         return (
             <div>
                 <Navbar/>
@@ -106,9 +129,10 @@ export class Settings extends Component {
                                 <Grid item xs={12} sm={6} >
                                     <h5>Change Password</h5>
                                     <form style={{marginTop: '30px'}} onSubmit={this.onSubmitPass}>
-                                        <TextField variant='outlined' type='password' name="old_password" label="Old Password" style={{paddingBottom: '15px', width: '300px'}}/>
-                                        <TextField variant='outlined' type='password' name="new_password" label="New Password" style={{paddingBottom: '15px', width: '300px'}}/>
-                                        <TextField variant='outlined' type='password' name="confirm_password" label="Confirm Password" style={{paddingBottom: '15px', width: '300px'}}/>
+                                        {this.props.message !== "" ? <Alert severity={this.props.messageType} style={{marginBottom: '20px'}}>{this.props.message}</Alert> : "" }
+                                        <TextField value={this.state.password.old_password} onChange={this.onChangePass} variant='outlined' type='password' name="old_password" label="Old Password" style={{paddingBottom: '15px', width: '300px'}}/>
+                                        <TextField value={this.state.password.new_password} onChange={this.onChangePass} variant='outlined' type='password' name="new_password" label="New Password" style={{paddingBottom: '15px', width: '300px'}}/>
+                                        <TextField value={this.state.password.confirm_password} onChange={this.onChangePass} variant='outlined' type='password' name="confirm_password" label="Confirm Password" style={{paddingBottom: '15px', width: '300px'}}/>
                                         <br/>
                                         <Button type='submit' color='primary' variant='contained' style={{width: '150px', marginRight: '10px',  marginTop: '15px'}}>Save</Button>
                                         <Button color='primary' variant='contained' style={{width: '150px', marginRight: '10px',  marginTop: '15px'}} onClick={this.onClear}>Clear</Button>
@@ -142,7 +166,7 @@ const mapStateToProps = (state) => ({
     error: state.teams.error,
     data: state.teams.data,
     message: state.teams.message,
-    errorType: state.teams.errorType
+    messageType: state.teams.messageType
 })
 
 export default connect(mapStateToProps, mapDispatchToProps )(Settings);

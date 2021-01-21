@@ -9,7 +9,6 @@ import Login from './Login';
 export class Homepage extends Component {
     
     render() {
-        console.log(this.props)
         return (
             <Router>
                 <Switch>

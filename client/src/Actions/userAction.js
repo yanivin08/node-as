@@ -13,13 +13,15 @@ const addUserSuccess = res => {
         if(res.errorType == 'success'){
             return { 
                 type: ADD_USER_SUCCESS,
-                payload: {},
-                msg: res.msg
+                msg: res.msg,
+                messageType: res.errorType,
+                payload: {}
             }
         }else{
             return { 
                 type: ADD_USER_FAILED,
-                payload: res.msg
+                payload: res.msg,
+                messageType: "error"
             }
         }
     }else{
@@ -40,7 +42,8 @@ const addUserSuccess = res => {
 const addUserFailed = err => {
     return {
         type: ADD_USER_FAILED,
-        payload: err
+        payload: err,
+        messageType: "error"
     }
 }
 
@@ -123,6 +126,7 @@ export const getInfo = (token) => {
 
 export const changePass = (token,data) => {
     //change_password
+    console.log(data)
     return (dispatch) => {
         dispatch(addUserStart());
         fetch('/user/change_password', {

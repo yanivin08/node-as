@@ -38,20 +38,11 @@ router.post('/register',(req,res) => {
                     if(err) throw err;
                     newUser.password = hash;
                     newUser.save()
-                        .then(user => {
-                            
-                            jwt.sign(
-                                { id: user.id },
-                                config.get('jwtSecret'),
-                                { expiresIn: 3600 },
-                                (err) => {
-                                    if(err) throw err;
-                                    User.find()
-                                        .select('-password')
-                                        .then(users => res.json(users))
-                                }
-                            )
-                            
+                        .then(() => {
+                            User.find()
+                                .select('-password')
+                                .then(users => res.json(users))
+
                         })
                 })
             })
@@ -62,11 +53,14 @@ router.post('/register',(req,res) => {
 //changing passwords
 router.post('/change_password', auth, (req,res) => {
 
-    const { password, new_password, confirm_password } = req.body
-    
+    const { old_password, new_password, confirm_password } = req.body
+    if(!old_password || !new_password || !confirm_password){
+        return res.status(400).json({ msg: 'Please enter all fields', errorType: 'info'});
+    }
+
     User.findById(req.user.id)
         .then(user => {
-            bcrypt.compare(password, user.password)
+            bcrypt.compare(old_password, user.password)
                 .then(isMatch => {
                     if(!isMatch) return res.json({msg: 'Invalid password!', errorType: 'error'})
 
@@ -75,6 +69,7 @@ router.post('/change_password', auth, (req,res) => {
                             bcrypt.hash(new_password, salt, (err,hash) => {
                                 if(err) throw err;
                                 user.password = hash;
+                                user.change_password = false;
                                 user.save()
                                     .then(() => {
                                         res.json({msg: 'Your password has successfully change!', errorType: 'success'})
@@ -131,7 +126,7 @@ router.post('/auth',(req,res) => {
                     if(!isMatch) return res.status(400).json({msg: 'Invalid password!'})
 
                     jwt.sign(
-                        { id: acct.id },
+                        { id: acct.id, user_type: acct.user_type, user: acct.change_password },
                         config.get('jwtSecret'),
                         { expiresIn: 3600 },
                         (err, token) => {
@@ -141,7 +136,8 @@ router.post('/auth',(req,res) => {
                                 token,
                                 user: {
                                     id: acct.id,
-                                    name: acct.username
+                                    user_type: acct.user_type,
+                                    user: acct.change_password
                                 }
                             })
                         }

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import Login from './Login'
 import Homepage from './Homepage'
 import PrivateRoute from './PrivateRoute'
+import ChangePass from '../Pages/ChangePass'
 
 export class StartPage extends Component {
 
@@ -11,8 +12,9 @@ export class StartPage extends Component {
             <Router>
                 <Switch>
                     <Route path="/login" component={Login} />
+                    <Route path='/changepass' component={ChangePass}/>
                     <PrivateRoute path='/user'>
-                        <Homepage passData={this.props}/>
+                        <Homepage/>
                     </PrivateRoute>
                     <Route path="/">
                         <Redirect to='/user'/>

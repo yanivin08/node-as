@@ -1,7 +1,7 @@
 import { AUTH_START, AUTH_SUCCESS, AUTH_FAILED } from '../Actions/type';
 
 const initialState = {
-    loading: false,
+    loading: true,
     error: false,
     message: '',
     data: '',
@@ -20,7 +20,8 @@ export default function(state = initialState, actions){
             return {
                 ...state,
                 data: actions.payload,
-                isLoggedIn: true   
+                isLoggedIn: true,
+                loading: false   
             }
 
         case AUTH_FAILED:

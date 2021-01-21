@@ -28,7 +28,7 @@
   padding: 3rem 2rem;
 }
 
-.login {
+.login, .changepass {
   display: flex;
   height: 90vh;
   align-items: center;

@@ -7,7 +7,6 @@ const authStart = () => {
 }
 
 const authSuccess = res => {
-    console.log(res)
     if(res.msg){
         return { 
             type: AUTH_FAILED,
@@ -31,7 +30,7 @@ const authFailed = err => {
 export const authenticate = (token) => {
     return (dispatch) => {
         dispatch(authStart());
-        fetch('/auth', {
+        fetch('/user/auth', {
             method: 'GET',
             headers: {
                 'Accept':'application/json',
