@@ -51,6 +51,7 @@ export class PrivateRoute extends Component {
             
             let token = this.props.location.state.data.token.split(".")
             let user =this.props.location.state.data.user.user
+            let uId =this.props.location.state.data.user.id
             let type = 0
             let now = new Date()
 
@@ -70,6 +71,7 @@ export class PrivateRoute extends Component {
             document.cookie = `dt=${token[1] + "." + token[2]};expires=${now.toGMTString()};path=/`
             document.cookie = `u=${user};expires=${now.toGMTString()};path=/`
             document.cookie = `val=${type};expires=${now.toGMTString()};path=/`
+            document.cookie = `i=${uId};expires=${now.toGMTString()};path=/`
 
             this.setState({
                 login: true,

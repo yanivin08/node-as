@@ -170,3 +170,27 @@ export const changeInfo = (token,data) => {
         })
     }
 }
+
+
+export const changeType = (token,data) => {
+    //change_info
+    return (dispatch) => {
+        dispatch(addUserStart());
+        fetch('/user/change_type', {
+            method: 'POST',
+            headers: {
+                'Accept':'application/json',
+                'Content-Type': 'application/json',
+                'x-auth-token': token
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(res => {
+            dispatch(addUserSuccess(res))
+        })
+        .catch((err) => {
+            dispatch(addUserFailed(err))
+        })
+    }
+}

@@ -4,7 +4,7 @@ import { Grid, TextField, Paper, FormControl, InputLabel, Select as MuiSelect, C
 import MaterialTable from 'material-table';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux'
-import { addUser, getUsers } from '.././Actions/userAction';
+import { addUser, getUsers, changeType } from '.././Actions/userAction';
 import PropTypes from 'prop-types';
 import { BeatLoader } from 'react-spinners';
 import { Redirect } from 'react-router-dom';
@@ -14,33 +14,47 @@ export class Team extends Component {
         columns : [
             {
                 title: "First Name",
-                field: "first_name"
+                field: "first_name",
+                editable: 'never'
             },
             {
                 title: "Second Name",
-                field: "second_name"
+                field: "second_name",
+                editable: 'never'
             },
             {
                 title: "Email",
-                field: "email"
+                field: "email",
+                editable: 'never'
             },
             {
                 title: "Job Position",
-                field: "position"
+                field: "position",
+                editable: 'never'
             },
             {
                 title: "Department",
-                field: "department"
+                field: "department",
+                editable: 'never'
             },
             {
                 title: "User Type",
-                field: "user_type"
+                field: "user_type",
+                lookup: { "Guest": 'Guest', "User": 'User', "Admin": "Admin", "Super Admin": "Super Admin" }
             },
             {
                 title: "Date Register",
-                field: "register_date"
+                field: "register_date",
+                editable: 'never',
+                editComponent: props => (
+                    <input
+                    type="text"
+                    value={props.value}
+                    onChange={e => props.onChange(e.target.value)}
+                    />)
             }
         ],
+        tableData: [],
         first_name: "",
         second_name: "",
         email: "",
@@ -51,6 +65,55 @@ export class Team extends Component {
     }
 
     state = this.initialState;
+
+    updateState(arr,oldDataId,userType){
+    
+        const token = this.getCookie("a") + "." + this.getCookie("dt");
+
+        fetch('/user/change_type', {
+            method: 'POST',
+            headers: {
+                'Accept':'application/json',
+                'Content-Type': 'application/json',
+                'x-auth-token': token
+            },
+            body: JSON.stringify({
+                id: oldDataId,
+                user_type: userType
+            })
+        })
+        .then(() => {
+            this.setState({tableData: arr})
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    deleteState(arr,dataId){
+        
+        if(dataId !== this.getCookie("i")){
+            const token = this.getCookie("a") + "." + this.getCookie("dt");
+
+            fetch('/user/delete_user', {
+                method: 'POST',
+                headers: {
+                    'Accept':'application/json',
+                    'Content-Type': 'application/json',
+                    'x-auth-token': token
+                },
+                body: JSON.stringify({
+                    id: dataId
+                })
+            })
+            .then(() => {
+                this.setState({tableData: arr})
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+        }
+    }
     
     onChanges = (e) => {
         const { name, value } = e.target;
@@ -83,6 +146,12 @@ export class Team extends Component {
         }
         return "";
     }
+    
+    componentWillReceiveProps(nextProps){
+        if(nextProps.data){
+            this.setState({tableData: nextProps.data})
+        }
+    }
 
     async componentDidMount(){
         const token = this.getCookie("a") + "." + this.getCookie("dt");
@@ -91,7 +160,7 @@ export class Team extends Component {
 
     render() {
 
-        if(parseInt(this.getCookie("val")) < 3){
+        if(parseInt(this.getCookie("val")) < 2){
             return <Redirect to="/user"/>
         }else{
             return (
@@ -131,7 +200,7 @@ export class Team extends Component {
                                                 <option value="Guest">Guest</option>
                                                 <option value="User">User</option>
                                                 <option value="Admin">Admin</option>
-                                                <option value="Super Admin">Super Admin</option>
+                                                {parseInt(this.getCookie("val")) === 3 ? <option value="Super Admin">Super Admin</option> : null}
                                             </MuiSelect>
                                         </FormControl>
                                     </Grid>
@@ -144,7 +213,7 @@ export class Team extends Component {
                                 : <MaterialTable 
                                     style={{marginTop: '20px', padding: '10px'}} 
                                     columns={this.state.columns}
-                                    data={this.props.data}
+                                    data={this.state.tableData}
                                     options={{
                                         filtering: false,
                                         search: false,
@@ -152,6 +221,33 @@ export class Team extends Component {
                                         pageSize: 5,
                                         toolbar: false 
                                     }} 
+                                    editable={
+                                        parseInt(this.getCookie("val")) === 3 ?
+                                        {
+                                            onRowUpdate: (newData, oldData) =>
+                                            new Promise((resolve, reject) => {
+                                                setTimeout(() => {
+                                                const dataUpdate = [...this.state.tableData];
+                                                const index = oldData.tableData.id;
+                                                dataUpdate[index] = newData;
+                                                this.updateState([...dataUpdate],newData._id,newData.user_type);
+
+                                                resolve();
+                                                }, 1000)
+                                            }),
+                                            onRowDelete: oldData => 
+                                                new Promise((resolve, reject) => {
+                                                    setTimeout(() => {
+                                                        const dataDelete = [...this.state.tableData];
+                                                        const index = oldData.tableData.id;
+                                                        dataDelete.splice(index, 1);
+                                                        this.deleteState([...dataDelete],oldData._id);
+                                                        resolve();
+                                                    }, 1000)
+                                                })
+                                        }
+                                        : false
+                                    } 
                                     components={{
                                         Container: props => <Paper {...props} elevation={0}/>
                                     }}
@@ -167,13 +263,15 @@ export class Team extends Component {
 
 Team.propTypes = {
     addUser: PropTypes.func.isRequired,
-    getUsers: PropTypes.func.isRequired
+    getUsers: PropTypes.func.isRequired,
+    changeType: PropTypes.func.isRequired
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         addUser: bindActionCreators(addUser, dispatch),
-        getUsers: bindActionCreators(getUsers, dispatch)
+        getUsers: bindActionCreators(getUsers, dispatch),
+        changeType: bindActionCreators(changeType, dispatch)
     }
 }
 

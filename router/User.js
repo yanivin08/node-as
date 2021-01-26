@@ -84,6 +84,24 @@ router.post('/change_password', auth, (req,res) => {
 
 })
 
+
+router.post('/change_type', auth, (req,res) => {
+    const { id, user_type } = req.body
+
+    User.findOneAndUpdate({ _id:id },
+        {
+            user_type: user_type,
+        }
+    )
+    .then(() => {
+        res.json({msg: "Your account information has been updated!", errorType: 'success'})
+    })
+    .catch(err =>{
+        res.json({msg:`Error updating your information: ${err}`, errorType: 'error'})
+    })
+
+})
+
 //changing user information
 router.post('/change_info', auth, (req,res) => {
     const { id, username, first_name, second_name, email, position, department } = req.body
@@ -104,7 +122,17 @@ router.post('/change_info', auth, (req,res) => {
     .catch(err =>{
         res.json({msg:`Error updating your information: ${err}`, errorType: 'error'})
     })
+})
 
+router.post('/delete_user', auth, (req,res) => {
+    
+    User.deleteOne({ _id: req.body.id })
+        .then(() => {
+            res.json({msg: "Account has been deleted!", errorType: 'success'})
+        })
+        .catch(err => {
+            res.json({msg:`Error updating your information: ${err}`, errorType: 'error'})
+        })
 })
 
 //authenticate user and getting token to request in other routes
