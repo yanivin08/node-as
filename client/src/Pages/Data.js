@@ -26,6 +26,16 @@ export class Data extends Component {
                 title: "Appointment Start",
                 field: "appt_start",
                 type: 'datetime',
+                editComponent: props => (
+                    <TextField
+                    type="datetime"
+                    error
+                    label="Error"
+                    helperText="Incorrect entry."
+                    value={props.value}
+                    onChange={e => props.onChange(e.target.value)}
+                    />)
+
             },
             {
                 title: "Appointment End",
@@ -61,6 +71,37 @@ export class Data extends Component {
             helperText: 'Required date',
             validateInput: false
         }
+    }
+
+    updateData(field,arr,table){
+        
+        let url ="";
+        let data = {}
+        const token = this.getCookie("a") + "." + this.getCookie("dt");
+        
+        if(field == "status"){
+            url = "/appointment/status";
+            data = {order: arr.order, status: arr.status}
+        }else{
+            url = "/appointment/date";
+            data = {order: arr.order, appt_start: arr.appt_start, appt_end: arr.appt_end}
+        }
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept':'application/json',
+                'Content-Type': 'application/json',
+                'x-auth-token': token
+            },
+            body: JSON.stringify(data)
+        })
+        .then(() => {
+            this.setState({data: table})
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     handleClose(arr){
@@ -157,6 +198,9 @@ export class Data extends Component {
                                         onCellEditApproved: (newValue, oldValue, rowData, columnDef) => {
                                         return new Promise((resolve, reject) => {
                                             
+                                            let dataUpdate = [...this.state.data]
+                                            let rowIndex = dataUpdate.findIndex(x => x.order === rowData.order)
+
                                             console.log(newValue)
                                             console.log(oldValue)
                                             console.log(rowData)
@@ -166,6 +210,21 @@ export class Data extends Component {
                                                 reject()
                                                 return;
                                             }
+
+                                            if(columnDef.field == "appt_start"){
+                                                if(newValue > new Date(rowData.appt_end)){
+                                                    reject();
+                                                    return;
+                                                }   
+                                            }else if(columnDef.field == "appt_end"){
+                                                if(newValue < new Date(rowData.appt_start)){
+                                                    reject();
+                                                    return;
+                                                }   
+                                            }
+
+                                            dataUpdate[rowIndex][columnDef.field] = newValue
+                                            this.updateData(columnDef.field,dataUpdate[rowIndex],dataUpdate);
 
                                             setTimeout(resolve, 1000);
                                         });
