@@ -42,6 +42,10 @@ const UserSchema = new Schema({
     change_password: {
         type: Boolean,
         default: true
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
 });
 

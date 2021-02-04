@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import './Navbar.css';
-import { Menu, MenuItem } from '@material-ui/core'
-import { Person, Menu as Menus, Close } from '@material-ui/icons';
+import { Menu, MenuItem, FormControlLabel, Switch, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
+import { Person, Menu as Menus, Close, SettingsApplicationsTwoTone } from '@material-ui/icons';
 
-export default function Navbar(props) {
+
+
+export default function Navbar() {
     
-
     const [sidebar, setSidebar] = useState(false);
     const [menuEl, setHandle] = useState(null);
+    const [dialogBox, setDialog] = useState(false);
+    const [appoint, setAppoint] = useState(false);
 
     const getCookie = (cname) => {
       let name = cname + "=";
@@ -47,18 +50,44 @@ export default function Navbar(props) {
 
     const showSidebar = () => setSidebar(!sidebar);
     
+    const handleDialog = () => setDialog(!dialogBox);
+
+    const handleAppoint = () => {
+      
+      setAppoint(!appoint);
+    }
 
     return (
       <>
+          <Dialog
+          open={dialogBox}
+          onClose={handleDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Start Setting up Appointment?"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Swith the toggle button below to start/stop setting up appointments.
+                  <FormControlLabel
+                      control={<Switch checked={appoint} onChange={handleAppoint} name="appoint" />}
+                      label="Appointment"
+                  />
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleDialog} color="primary">
+                  Close
+                </Button>
+            </DialogActions>
+          </Dialog>
           <div className='navbar'>
             <div className='menu-bars'>
               <Link to='#' className='menu-bar'>
                 <Menus style={{color: 'white', fontSize: '30px'}} onClick={showSidebar}/>
                 
               </Link>
-              <Link to='#' className='menu-bar'>
-                <span>Appointment Settings</span>
-              </Link>
+              <span style={{ marginLeft: '30px', color: 'white' }}>Appointment Settings</span>
             </div>
             <div className='menu-rights'>
               <Link to='#' className='menu-right' aria-controls='menu' onMouseOver={handleMenuOpen}>
@@ -67,7 +96,12 @@ export default function Navbar(props) {
             </div>
             <Menu style={{marginTop: '45px'}}
               id='menu' anchorEl={menuEl} open={Boolean(menuEl)} onClose={handleMenuClose}>
-              <MenuItem onClick={handleMenuClose}>My Profile</MenuItem>
+              { getCookie('val') >= 2 ? <MenuItem onClick={handleDialog}>My Application</MenuItem> : null}
+              <MenuItem onClick={handleMenuClose}>
+                <Link to='/user/account' style={{textDecoration: 'none', color: 'black' }}>
+                  My Profile
+                </Link>    
+              </MenuItem>
               <MenuItem onClick={handleMenuClose, signOut}>Sign Out</MenuItem>
             </Menu>
           </div>
